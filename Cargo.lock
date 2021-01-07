@@ -272,6 +272,7 @@ dependencies = [
  "pretty_env_logger",
  "sentry",
  "serenity",
+ "tokio 1.0.1",
 ]
 
 [[package]]
@@ -1664,6 +1665,7 @@ dependencies = [
  "libc",
  "memchr",
  "mio 0.7.7",
+ "num_cpus",
  "pin-project-lite 0.2.1",
  "tokio-macros",
 ]
