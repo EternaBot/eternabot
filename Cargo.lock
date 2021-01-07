@@ -1355,6 +1355,7 @@ dependencies = [
  "sentry-backtrace",
  "sentry-contexts",
  "sentry-core",
+ "sentry-log",
  "sentry-panic",
 ]
 
@@ -1397,6 +1398,16 @@ dependencies = [
  "sentry-types",
  "serde",
  "serde_json",
+]
+
+[[package]]
+name = "sentry-log"
+version = "0.21.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "af91b9d4f34cc53ebd109cae92b0e1373df2524e915af95f212b9d0601bff241"
+dependencies = [
+ "log",
+ "sentry-core",
 ]
 
 [[package]]
