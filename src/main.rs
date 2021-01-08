@@ -21,7 +21,7 @@ async fn main() {
     // Setup Sentry
     let _guard = sentry::init(
         env::var_os("SENTRY_DNS")
-            .unwrap_or(OsString::new())
+            .unwrap_or_else(OsString::new)
             .into_string()
             .unwrap(),
     );
