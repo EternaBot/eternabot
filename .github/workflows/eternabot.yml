@@ -1,0 +1,27 @@
+name: Rust
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    name: Linting
+    steps:
+      - uses: actions/checkout@v1
+      
+      - uses: actions-rs/toolchain@v1
+        name: Setup Rust
+        with:
+          toolchain: stable
+          components: clippy
+      
+      - uses: actions-rs/clippy@master
+        name: Run Clippy linter
+        with:
+          args: --all-features --all-targets
