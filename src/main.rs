@@ -24,7 +24,7 @@ async fn main() {
     // Setup Sentry
     let _guard = sentry::init(env::var_os("SENTRY_DNS")
         .unwrap_or(OsString::new()).into_string().unwrap());
-    error!("My test logging.");
+    info!("Sentry setup complete...");
     
     // Gather token from environment
     let token: String = env::var("BOT_TOKEN")
@@ -39,6 +39,7 @@ async fn main() {
         .await
         .expect("Error while creating client");
     
+    info!("Starting EternaBot...");
     if let Err(why) = client.start_autosharded().await {
         error!("Client error: {:?}", why);
     }
