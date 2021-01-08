@@ -23,5 +23,3 @@ jobs:
       
       - uses: actions-rs/clippy@master
         name: Run Clippy linter
-        with:
-          args: --all-features --all-targets
