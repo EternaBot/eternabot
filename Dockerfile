@@ -1,15 +1,24 @@
-# Build Rust binary
-FROM rust:latest as builder
+# Cargo Build Stage
+FROM rust:latest as cargo-build
 
-RUN apt-get update && apt-get install musl-tools -y && rustup target add x86_64-unknown-linux-musl
 WORKDIR /usr/src/eternabot
+
+COPY Cargo.toml Cargo.toml
+COPY Cargo.lock Cargo.lock
+
+RUN mkdir src/ && \
+    echo "fn main() {println!(\"if you see this, the build broke\")}" > src/main.rs && \
+    cargo build --release && \
+    rm -f target/release/deps/eternabot*
+
 COPY . .
 
-RUN RUSTFLAGS=-Clinker=musl-gcc cargo install --target=x86_64-unknown-linux-musl
+RUN cargo build --release
+RUN cargo install --path .
 
-# Run binary in Alpine
+# Final Stage
 FROM alpine:latest
 
-COPY --from=builder /usr/local/cargo/bin/eternabot /usr/local/bin/eternabot
+COPY --from=cargo-build /usr/local/cargo/bin/eternabot /usr/local/bin/eternabot
 
 CMD ["eternabot"]
