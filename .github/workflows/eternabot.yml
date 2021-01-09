@@ -16,7 +16,24 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
+      - name: Cache toolchain
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.rustup/toolchains
+            ~/.rustup/update-hashes
+            ~/.rustup/settings.toml
+          key: toolchain-${{ hashFiles('**/Cargo.lock') }}
+
+      - id: install
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+          components: clippy
+
       - name: Cache directories
+        id: clippy-cache
         uses: actions/cache@v2
         with:
           path: |
@@ -26,14 +43,9 @@ jobs:
           key: cargo-clippy-dirs-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: cargo-clippy-dirs-
 
-      - id: install
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
-          components: clippy
-
       - uses: actions-rs/cargo@v1
+        name: Install Cargo Sweep
+        if: steps.clippy-cache.outputs.cache-hit != 'true'
         with:
           command: install
           args: cargo-sweep
@@ -46,6 +58,7 @@ jobs:
           restore-keys: |
             cargo-clippy-${{ steps.install.outputs.rustc_hash }}-
             cargo-clippy-
+
       - name: Register artifacts
         uses: actions-rs/cargo@v1
         with:
