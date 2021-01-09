@@ -17,6 +17,7 @@ jobs:
       - uses: actions/checkout@master
 
       - name: Cache toolchain
+        id: toolchain-cache
         uses: actions/cache@v2
         with:
           path: |
@@ -27,6 +28,7 @@ jobs:
 
       - id: install
         uses: actions-rs/toolchain@v1
+        if: steps.toolchain-cache.outputs.cache-hit != 'true'
         with:
           toolchain: stable
           override: true
