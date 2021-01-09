@@ -111,8 +111,8 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          cache-from: type=registry,ref=ghcr.io/EternaBot/eternabot:latest
+          cache-from: type=registry,ref=ghcr.io/eternabot/eternabot:latest
           cache-to: type=inline
           tags: |
-            ghcr.io/EternaBot/eternabot:latest
-            ghcr.io/EternaBot/eternabot:${{ steps.sha_tag.outputs.tag }}
+            ghcr.io/eternabot/eternabot:latest
+            ghcr.io/eternabot/eternabot:${{ steps.sha_tag.outputs.tag }}
