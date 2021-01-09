@@ -15,16 +15,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@master
-      - id: install
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
-          components: clippy
-      - uses: actions-rs/cargo@v1
-        with:
-          command: install
-          args: cargo-sweep
 
       - name: Cache directories
         uses: actions/cache@v2
@@ -35,6 +25,19 @@ jobs:
             ~/.cargo/git
           key: cargo-clippy-dirs-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: cargo-clippy-dirs-
+
+      - id: install
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+          components: clippy
+
+      - uses: actions-rs/cargo@v1
+        with:
+          command: install
+          args: cargo-sweep
+
       - name: Cache build
         uses: actions/cache@v2
         with:
