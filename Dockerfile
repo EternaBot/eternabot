@@ -3,10 +3,10 @@ ENV PKG_CONFIG_ALLOW_CROSS=1
 
 WORKDIR /usr/src/eternabot
 COPY Cargo.toml Cargo.lock ./
-RUN mkdir src/ && \
-    echo "fn main() {println!(\"if you see this, the build broke\")}" > src/main.rs && \
-    cargo build --release && \
-    rm ./target/release/deps/eternabot*
+RUN mkdir src/
+RUN echo "fn main() {println!(\"if you see this, the build broke\")}" > src/main.rs
+RUN cargo build --release
+RUN rm ./target/release/deps/eternabot*
 
 COPY . .
 
