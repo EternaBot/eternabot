@@ -1,8 +1,8 @@
 FROM rust:latest as build
-ENV PKG_CONFIG_ALLOW_CROSS=1
 
 WORKDIR /usr/src/eternabot
-COPY Cargo.toml Cargo.lock ./
+COPY Cargo.toml Cargo.toml
+COPY Cargo.lock Cargo.lock
 RUN mkdir src/
 RUN echo "fn main() {println!(\"if you see this, the build broke\")}" > src/main.rs
 RUN cargo build --release
