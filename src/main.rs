@@ -7,13 +7,16 @@ extern crate log;
 use serenity::{framework::standard::StandardFramework, prelude::Client};
 use std::env;
 use std::ffi::OsString;
+use std::path::Path;
 
 use exts::*;
 
 #[tokio::main]
 async fn main() {
     // Load environment variables from .env
-    dotenv::dotenv().expect("Failed to load .env file.");
+    if Path::new("./.env").exists() {
+        dotenv::dotenv().expect("Failed to load .env file.");
+    }
 
     pretty_env_logger::init();
     info!("Logger setup complete...");
