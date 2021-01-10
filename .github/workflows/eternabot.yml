@@ -130,7 +130,7 @@ jobs:
           file: ./Dockerfile
           push: true
           cache-from: type=registry,ref=ghcr.io/eternabot/eternabot:latest
-          cache-to: type=inline
+          cache-to: type=inline,mode=max
           tags: |
             ghcr.io/eternabot/eternabot:latest
             ghcr.io/eternabot/eternabot:${{ steps.sha_tag.outputs.tag }}
