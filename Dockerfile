@@ -1,15 +1,17 @@
-FROM rust:latest as build
+FROM rust:1.49 as build
 
+RUN USER=root cargo new --bin eternabot
 WORKDIR /usr/src/eternabot
-COPY Cargo.toml Cargo.toml
-COPY Cargo.lock Cargo.lock
-RUN mkdir src/
-RUN echo "fn main() {println!(\"if you see this, the build broke\")}" > src/main.rs
+
+COPY ./Cargo.lock ./Cargo.lock
+COPY ./Cargo.toml ./Cargo.toml
+
 RUN cargo build --release
+RUN rm src/*.rs
+
+COPY ./src ./src
+
 RUN rm ./target/release/deps/eternabot*
-
-COPY . .
-
 RUN cargo build --release
 
 FROM gcr.io/distroless/cc-debian10
