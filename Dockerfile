@@ -1,10 +1,10 @@
 FROM rust:1.49 as build
 
-RUN USER=root cargo new --bin eternabot
 WORKDIR /usr/src/eternabot
 
 COPY ./Cargo.lock ./Cargo.lock
 COPY ./Cargo.toml ./Cargo.toml
+RUN echo "fn main() {}" > src/main.rs
 
 RUN cargo build --release
 RUN rm src/*.rs
