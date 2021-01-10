@@ -4,7 +4,8 @@ WORKDIR /usr/src/eternabot
 
 COPY ./Cargo.lock ./Cargo.lock
 COPY ./Cargo.toml ./Cargo.toml
-RUN echo "fn main() {}" > src/main.rs
+RUN mkdir src/ && \
+    echo "fn main() {println!(\"if you see this, the build broke\")}" > src/main.rs
 
 RUN cargo build --release
 RUN rm src/*.rs
