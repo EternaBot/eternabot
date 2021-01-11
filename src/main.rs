@@ -1,5 +1,6 @@
 mod exts;
 mod handlers;
+mod typemap_keys;
 
 extern crate pretty_env_logger;
 #[macro_use]
@@ -12,6 +13,7 @@ use std::path::Path;
 
 use exts::*;
 use handlers::handler::Handler;
+use typemap_keys::*;
 
 #[tokio::main]
 async fn main() {
@@ -44,6 +46,11 @@ async fn main() {
         .framework(framework)
         .await
         .expect("Error while creating client");
+
+    {
+        let mut data = client.data.write().await;
+        data.insert::<ShardManagerContainer>(client.shard_manager.clone());
+    }
 
     info!("Starting EternaBot...");
     if let Err(why) = client.start_autosharded().await {
