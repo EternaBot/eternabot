@@ -134,3 +134,19 @@ jobs:
           tags: |
             ghcr.io/eternabot/eternabot:latest
             ghcr.io/eternabot/eternabot:${{ steps.sha_tag.outputs.tag }}
+
+  deploy:
+    name: Deployment
+    runs-on: ubuntu-latest
+    needs: [build_push]
+
+    steps:
+      - uses: actions/checkout@v2
+        name: Checkout code
+
+      - name: Run Deployment webhook
+        uses: fjogeleit/http-request-action@master
+        with:
+          url: ${{ secrets.WEBHOOK_URL }}
+          method: 'POST'
+          bearerToken: ${{ secrets.WEBHOOK_TOKEN }}
