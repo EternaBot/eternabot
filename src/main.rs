@@ -1,4 +1,5 @@
 mod exts;
+mod handlers;
 
 extern crate pretty_env_logger;
 #[macro_use]
@@ -10,6 +11,7 @@ use std::ffi::OsString;
 use std::path::Path;
 
 use exts::*;
+use handlers::handler::Handler;
 
 #[tokio::main]
 async fn main() {
@@ -38,6 +40,7 @@ async fn main() {
         .group(&utils::UTILS_GROUP);
 
     let mut client = Client::builder(token)
+        .event_handler(Handler)
         .framework(framework)
         .await
         .expect("Error while creating client");
