@@ -44,13 +44,13 @@ async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
         .send_message(ctx, |m| {
             m.embed(|e| {
                 e.title("Pong!");
-                e.field("Latency", &format!("{:?}**ms**", latency), true);
+                e.field("Latency", &format!("{} **ms**", latency), true);
                 e.footer(|f| {
-                    f.text(&format!("Shard {:?}/{:?}", ctx.shard_id, runners.len()));
+                    f.text(&format!("Shard {:?}/{:?}", ctx.shard_id + 1, runners.len()));
 
                     f
                 });
-                e.colour(Colour::DARK_GREEN);
+                e.colour(Colour::DARK_ORANGE);
 
                 e
             });
