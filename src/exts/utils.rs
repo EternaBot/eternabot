@@ -15,9 +15,10 @@ use crate::typemap_keys::ShardManagerContainer;
 async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
     // First we need to get shard manager from client data.
     let data = ctx.data.read().await;
-    let shard_manager = data.get::<ShardManagerContainer>()
+    let shard_manager = data
+        .get::<ShardManagerContainer>()
         .expect("Unable to get shard manager");
-    
+
     // After we have shard manager, we must get runners.
     let manager = shard_manager.lock().await;
     let runners = manager.runners.lock().await;
@@ -26,34 +27,37 @@ async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
     let runner = match runners.get(&ShardId(ctx.shard_id)) {
         Some(r) => r,
         None => {
-            msg.reply(ctx, "Unable to get guild's shard information.").await?;
+            msg.reply(ctx, "Unable to get guild's shard information.")
+                .await?;
 
             return Ok(());
         }
     };
-    
+
     // As now we also have shard information, we can get latency.
     let latency = match runner.latency {
         Some(l) => l.as_millis().to_string(),
-        None => String::from("?")
+        None => String::from("?"),
     };
 
-    msg.channel_id.send_message(ctx, |m| {
-        m.embed(|e| {
-            e.title("Pong!");
-            e.field("Latency", &format!("{:?}**ms**", latency), true);
-            e.footer(|f| {
-                f.text(&format!("Shard {:?}/{:?}", ctx.shard_id, runners.len()));
+    msg.channel_id
+        .send_message(ctx, |m| {
+            m.embed(|e| {
+                e.title("Pong!");
+                e.field("Latency", &format!("{:?}**ms**", latency), true);
+                e.footer(|f| {
+                    f.text(&format!("Shard {:?}/{:?}", ctx.shard_id, runners.len()));
 
-                f
+                    f
+                });
+                e.colour(Colour::DARK_GREEN);
+
+                e
             });
-            e.colour(Colour::DARK_GREEN);
 
-            e
-        });
-
-        m
-    }).await?;
+            m
+        })
+        .await?;
 
     Ok(())
 }
