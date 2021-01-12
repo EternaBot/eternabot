@@ -18,5 +18,6 @@ RUN cargo build --release
 FROM gcr.io/distroless/cc-debian10
 
 COPY --from=build /usr/src/eternabot/target/release/eternabot /usr/local/bin/eternabot
+STOPSIGNAL SIGINT
 
 CMD ["eternabot"]
