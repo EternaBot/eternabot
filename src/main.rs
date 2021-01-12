@@ -6,8 +6,9 @@ extern crate pretty_env_logger;
 #[macro_use]
 extern crate log;
 
-use serenity::{framework::standard::StandardFramework, prelude::Client};
+use serenity::{framework::standard::StandardFramework, http::Http, prelude::Client};
 use sqlx::postgres::PgPoolOptions;
+use std::collections::HashSet;
 use std::env;
 use std::ffi::OsString;
 use std::path::Path;
@@ -47,8 +48,31 @@ async fn main() {
         .await
         .expect("Can't connect to PostgreSQL DB");
 
+    let http = Http::new_with_token(token.as_str());
+
+    let owners = match http.get_current_application_info().await {
+        Ok(info) => {
+            let mut owners = HashSet::new();
+            if let Some(team) = info.team {
+                for member in team.members.iter() {
+                    owners.insert(member.user.id);
+                }
+            } else {
+                owners.insert(info.owner.id);
+            }
+
+            owners
+        },
+        Err(why) => panic!("Could not get application info: {:?}", why)
+    };
+
     let framework = StandardFramework::new()
-        .configure(|c| c.prefix("!"))
+        .configure(|c| {
+            c.prefix("!");
+            c.owners(owners);
+
+            c
+        })
         .group(&utils::UTILS_GROUP);
 
     let mut client = Client::builder(token)
