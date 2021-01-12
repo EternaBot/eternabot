@@ -67,7 +67,7 @@ async fn main() {
     tokio::spawn(async move {
         let mut stream = signal(SignalKind::interrupt()).expect("Unable to get SIGINT signal");
         stream.recv().await;
-        info!("Got SIGTERM signal...");
+        info!("Got SIGINT signal...");
         info!("Shutting down...");
         shard_manager.lock().await.shutdown_all().await;
         pool.close().await;
