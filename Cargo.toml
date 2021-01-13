@@ -1,6 +1,6 @@
 [package]
 name = "eternabot"
-version = "0.1.0"
+version = "1.0.0"
 authors = ["ks129 <45097959+ks129@users.noreply.github.com>"]
 edition = "2018"
 
