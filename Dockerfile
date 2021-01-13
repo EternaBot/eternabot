@@ -11,6 +11,8 @@ RUN cargo build --release
 RUN rm src/*.rs
 
 COPY ./src ./src
+RUN mkdir migrations
+COPY ./migrations ./migrations
 
 RUN rm ./target/release/deps/eternabot*
 RUN cargo build --release
