@@ -64,8 +64,8 @@ async fn main() {
             }
 
             owners
-        },
-        Err(why) => panic!("Could not get application info: {:?}", why)
+        }
+        Err(why) => panic!("Could not get application info: {:?}", why),
     };
 
     let framework = StandardFramework::new()
