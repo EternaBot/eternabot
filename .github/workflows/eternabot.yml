@@ -67,9 +67,9 @@ jobs:
           args: --stamp
 
       - uses: actions-rs/cargo@v1
+        name: Run Clippy
         with:
           command: clippy
-          args: -- -D warnings
 
       - name: Clean unused artifacts
         uses: actions-rs/cargo@v1
