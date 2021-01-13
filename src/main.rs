@@ -1,5 +1,6 @@
 mod exts;
 mod handlers;
+mod hooks;
 mod typemap_keys;
 
 extern crate pretty_env_logger;
@@ -16,6 +17,7 @@ use tokio::signal::unix::{signal, SignalKind};
 
 use exts::*;
 use handlers::handler::Handler;
+use hooks::after;
 use typemap_keys::*;
 
 #[tokio::main]
@@ -73,6 +75,7 @@ async fn main() {
 
             c
         })
+        .after(after)
         .group(&utils::UTILS_GROUP);
 
     let mut client = Client::builder(token)
