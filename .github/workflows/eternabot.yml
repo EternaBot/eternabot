@@ -43,7 +43,6 @@ jobs:
             ~/.cargo/bin
             ~/.cargo/git
           key: cargo-clippy-dirs-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: cargo-clippy-dirs-
 
       - uses: actions-rs/cargo@v1
         name: Install Cargo Sweep
