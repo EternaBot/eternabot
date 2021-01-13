@@ -1,7 +1,9 @@
 mod exts;
 mod handlers;
 mod hooks;
+mod models;
 mod typemap_keys;
+mod utils;
 
 extern crate pretty_env_logger;
 #[macro_use]
@@ -15,7 +17,7 @@ use std::ffi::OsString;
 use std::path::Path;
 use tokio::signal::unix::{signal, SignalKind};
 
-use exts::*;
+use exts::utils as utils_ext;
 use handlers::handler::Handler;
 use hooks::after;
 use typemap_keys::*;
@@ -80,7 +82,7 @@ async fn main() {
             c
         })
         .after(after)
-        .group(&utils::UTILS_GROUP);
+        .group(&utils_ext::UTILS_GROUP);
 
     let mut client = Client::builder(token)
         .event_handler(Handler)
