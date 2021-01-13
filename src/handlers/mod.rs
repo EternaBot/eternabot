@@ -1,3 +1,3 @@
 pub mod handler;
 
-mod ready;
+pub mod ready;
