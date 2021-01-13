@@ -49,6 +49,7 @@ async fn main() {
         .connect(database_url.as_str())
         .await
         .expect("Can't connect to PostgreSQL DB");
+    sqlx::migrate!().run(&pool).await.expect("Can't apply migrations");
 
     let http = Http::new_with_token(token.as_str());
 
